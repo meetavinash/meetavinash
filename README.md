@@ -41,3 +41,13 @@ Avinash
           echo "All logger names are valid."
 
 # ... other pipeline stages ...
+
+
+rules:
+  mandatory-header:
+    given: $..request.headers
+    then: function: has
+    functionOptions:
+      keys:
+        - 'X-API-Key'
+        - 'Authorization'
