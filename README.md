@@ -43,6 +43,41 @@ Avinash
 # ... other pipeline stages ...
 
 
+// In your custom linting functions file (e.g., custom-functions.js)
+
+function has(target, functionOptions) {
+  const { property, value } = functionOptions;
+
+  if (property) {
+    // Check if the property exists
+    if (!target.hasOwnProperty(property)) {
+      return {
+        message: `Expected property '${property}' to be present.`,
+      };
+    }
+
+    // If a value is specified, check if the property has the expected value
+    if (value && target[property] !== value) {
+      return {
+        message: `Expected property '${property}' to have value '${value}'.`,
+      };
+    }
+  } else {
+    // If no property is specified, simply check if the target is not empty
+    if (Object.keys(target).length === 0) {
+      return {
+        message: 'Expected target to not be empty.',
+      };
+    }
+  }
+
+  return null; // No issues found
+}
+
+module.exports = has;
+
+
+
 rules:
   mandatory-header:
     given: $..request.headers
